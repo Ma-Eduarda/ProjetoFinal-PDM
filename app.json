@@ -1,0 +1,18 @@
+{
+  "expo": {
+    "plugins": [
+      [
+        "expo-location",
+        {
+          "locationAlwaysAndWhenInUsePermission": "O app precisa da sua localização para mostrar devs perto de você",
+          "locationWhenInUsePermission": "O app precisa da sua localização para mostrar devs perto de você"
+        }
+      ],
+      "expo-router",
+      "expo-web-browser"
+    ],
+    "android": {
+      "permissions": ["ACCESS_FINE_LOCATION", "ACCESS_COARSE_LOCATION"]
+    }
+  }
+}
