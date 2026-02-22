@@ -1,4 +1,11 @@
 export const dataUsers = [
+    // {
+    //     id: 0,
+    //     nome: "Admin",
+    //     email: "Admin@gmail.com",
+    //     role: "admin",
+    //     imagem: "https://i.pinimg.com/236x/55/6e/2e/556e2edc7518c0e5cb4d59aef6729b24.jpg",
+    // },
     {
         id: 1,
         nome: "Rafael",

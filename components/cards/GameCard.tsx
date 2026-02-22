@@ -23,24 +23,31 @@ export default function GameCard({ title, price, image, onPress }: GameCardProps
 const styles = StyleSheet.create({
   card: { 
     backgroundColor: "#1f1f1f",
-    borderRadius: 12,
+    borderRadius: 16,
     overflow: "hidden",
-    marginBottom: 20
+    marginBottom: 20,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 6 },
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
+    elevation: 8
   },
   image: { 
     width: "100%",
-    height: 200
+    height: 220
   },
   info: {
-    padding: 15
+    padding: 18
   },
   title: {
     color: "#fff",
-    fontSize: 18,
+    fontSize: 20,
     fontWeight: "bold"
   },
   price: {
-    color: "#00FF88",
-    marginTop: 4
+    color: "#2bff00",
+    marginTop: 6,
+    fontSize: 16,
+    fontWeight: "600"
   },
 });

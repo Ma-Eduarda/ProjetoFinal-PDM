@@ -41,8 +41,8 @@ export default function Home() {
         renderItem={({ item }) => (
           <GameCard
             title={item.title}
-            price={item.price}
-            image={item.image}
+            price={item.price ?? ''}
+            image={item.image ?? ''}
             onPress={() =>
               router.push({
                 pathname: '/games/[id]',
@@ -59,5 +59,5 @@ export default function Home() {
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#121212' },
-  listContent: { padding: 16 },
+  listContent: { padding: 20 },
 });
