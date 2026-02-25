@@ -101,7 +101,7 @@ const styles = StyleSheet.create({
     logoutContainer: {
         justifyContent: "flex-end",
         padding: 20,
-        marginBottom: 20,
+        paddingBottom: 30,
     },
 
     logoutButton: {

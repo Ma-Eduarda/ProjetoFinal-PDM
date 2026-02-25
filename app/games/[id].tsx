@@ -1,43 +1,57 @@
 import { modoAdm } from '@/src/config/appConfig';
-import { dataGames } from '@/src/data/games';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { router, useFocusEffect, useLocalSearchParams } from 'expo-router';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 export default function GameDetails() {
   const { id } = useLocalSearchParams();
+  const [game, setGame] = useState<any>(null);
   const [inCart, setInCart] = useState(false);
-  const game = dataGames.find((g) => g.id.toString() === id);
 
-  if (!game) return <Text>Jogo não encontrado</Text>;
+  useEffect(() => {
+    async function loadGame() {
+      const saved = await AsyncStorage.getItem("@app_data_jogos");
+      const games = saved ? JSON.parse(saved) : [];
+
+      const selectedGame = games.find(
+        (item: any) => String(item.id) === String(id),
+      );
+
+      setGame(selectedGame);
+    }
+
+    loadGame();
+  }, [id]);
 
   const addToCart = async () => {
-    const saved = await AsyncStorage.getItem('@cart_games');
+    const saved = await AsyncStorage.getItem("@cart_games");
     const cart = saved ? JSON.parse(saved) : [];
 
-    const exists = cart.some((item: { id: number }) => item.id === game.id);
+    const exists = cart.some((item: any) => item.id === game.id);
     if (exists) return;
 
     cart.push(game);
-    await AsyncStorage.setItem('@cart_games', JSON.stringify(cart));
+    await AsyncStorage.setItem("@cart_games", JSON.stringify(cart));
     setInCart(true);
   };
 
   const checkCart = async () => {
-    const saved = await AsyncStorage.getItem('@cart_games');
+    const saved = await AsyncStorage.getItem("@cart_games");
     const cart = saved ? JSON.parse(saved) : [];
 
-    const exists = cart.some((item: { id: number }) => item.id === game.id);
+    const exists = cart.some((item: any) => item.id === game?.id);
     setInCart(exists);
   };
 
   useFocusEffect(
     useCallback(() => {
-      checkCart();
-    }, [])
+      if (game) checkCart();
+    }, [game]),
   );
+
+  if (!game) return <Text style={{ color: "#fff" }}>Jogo não encontrado</Text>;
 
   return (
     <ScrollView style={styles.container}>
@@ -52,28 +66,28 @@ export default function GameDetails() {
           <Text style={styles.price}>R$ {game.price}</Text>
 
           {(!modoAdm) && (
-          <TouchableOpacity
-            style={[
-              styles.buyButton,
-              inCart && { backgroundColor: '#464545' }
-            ]}
-            onPress={async () => {
-              if (inCart) {
-                router.push('/cart');
-              } else {
-                await addToCart();
-              }
-            }}
-          >
-            <Ionicons
-              name={inCart ? "cart" : "cart-outline"}
-              size={20}
-              color="#000"
-            />
-            <Text style={styles.buyButtonText}>
-              {inCart ? "Ir para o Carrinho" : "Adicionar ao Carrinho"}
-            </Text>
-          </TouchableOpacity>
+            <TouchableOpacity
+              style={[
+                styles.buyButton,
+                inCart && { backgroundColor: '#464545' }
+              ]}
+              onPress={async () => {
+                if (inCart) {
+                  router.push('/cart');
+                } else {
+                  await addToCart();
+                }
+              }}
+            >
+              <Ionicons
+                name={inCart ? "cart" : "cart-outline"}
+                size={20}
+                color="#000"
+              />
+              <Text style={styles.buyButtonText}>
+                {inCart ? "Ir para o Carrinho" : "Adicionar ao Carrinho"}
+              </Text>
+            </TouchableOpacity>
           )}
 
           {(modoAdm) && (
@@ -113,8 +127,6 @@ const styles = StyleSheet.create({
   },
   imageContainer: {
     height: 320,
-    borderBottomLeftRadius: 24,
-    borderBottomRightRadius: 24,
     overflow: 'hidden',
   },
   image: {
@@ -126,18 +138,20 @@ const styles = StyleSheet.create({
   },
   title: {
     color: '#fff',
-    fontSize: 30,
+    fontSize: 29,
     fontWeight: 'bold',
     marginBottom: 20,
   },
   priceCard: {
     backgroundColor: '#1c1c1c',
     borderRadius: 16,
-    padding: 16,
+    padding: 10,
     marginBottom: 25,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
+    borderWidth: 1,
+    borderColor: '#262626',
   },
 
   price: {
@@ -146,21 +160,24 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   infoSection: {
-    marginBottom: 24,
+    marginBottom: 30,
   },
   sectionTitle: {
     color: '#fff',
     fontSize: 18,
-    fontWeight: '600',
-    marginBottom: 12,
+    fontWeight: 'bold',
+    marginBottom: 10,
+    letterSpacing: 0.5,
   },
   gameText: {
-    color: '#b0b0b0',
+    color: '#bebebe',
     fontSize: 15,
-    lineHeight: 24,
+    lineHeight: 22,
+    textAlign: 'justify',
   },
   detailsContainer: {
     gap: 12,
+    paddingBottom: 50,
   },
   detailCard: {
     backgroundColor: '#1c1c1c',

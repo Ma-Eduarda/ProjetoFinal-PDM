@@ -104,8 +104,8 @@ const styles = StyleSheet.create({
     fontSize: 16
   },
   image: {
-    width: 60,
-    height: 80,
+    width: 70,
+    height: 100,
     borderRadius: 8,
     marginRight: 10
   },
@@ -126,13 +126,14 @@ const styles = StyleSheet.create({
 
   title: {
     color: '#fff',
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: 'bold'
   },
 
   price: {
     color: '#2bff00',
-    marginTop: 5
+    marginTop: 5,
+    fontSize: 16,
   },
 
   removeButton: {
@@ -148,7 +149,7 @@ const styles = StyleSheet.create({
   totalContainer: {
     padding: 20,
     borderTopWidth: 1,
-    borderTopColor: '#2a2a2a'
+    borderTopColor: '#2a2a2a',
   },
 
   totalText: {
